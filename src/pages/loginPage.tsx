@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, FormEvent } from 'react'
 
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
@@ -35,7 +35,7 @@ const LoginPage: React.FC = (): JSX.Element => {
     }
   }, [])
 
-  const handleSubmit = async (event: any) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     try {
       const formData = new FormData(event.currentTarget)
@@ -48,8 +48,8 @@ const LoginPage: React.FC = (): JSX.Element => {
       localStorage.setItem('access', data.access)
       localStorage.setItem('refresh', data.refresh)
 
-      if (data.isAdmin) {
-        dispatch(loggedInAsAdmin(data.username))
+      if (data.user.roles.includes('Admin')) {
+        dispatch(loggedInAsAdmin(data.user.username))
         navigate('/admin')
       } else {
         dispatch(authorized())
@@ -107,7 +107,7 @@ const LoginPage: React.FC = (): JSX.Element => {
               fullWidth
               id='Username'
               label='Username'
-              name='Username'
+              name='username'
               autoComplete='Username'
               autoFocus
             />

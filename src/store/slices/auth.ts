@@ -32,15 +32,15 @@ const slice = createSlice({
       state.isLoading = true
     },
     hasError: (state, action: PayloadAction<string>) => {
-      console.log(action.payload)
       state.error = action.payload
       state.isLoading = false
     },
-    authorized: state => {
+    authorized: (state, action: PayloadAction<string | null>) => {
       state.isAuthorized = true
       state.isLoading = false
       state.error = null
       state.isLoading = false
+      state.username = action.payload
     },
     setAdmin: state => {
       state.isAdmin = true

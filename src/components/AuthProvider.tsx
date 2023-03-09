@@ -13,10 +13,14 @@ import {
 } from '../store/slices/auth'
 import { useAppDispatch, useAppSelector } from '../hooks/redux'
 import Loader from './Loader'
+import { Role } from '../http/auth'
 
-interface IUserData {
-  isAdmin: boolean
-  username: string | null
+interface IAccessTokenData {
+  exp: number
+  iat: number
+  id: number
+  username: string
+  roles: Role[]
 }
 
 interface IAuthProvider {
@@ -44,8 +48,6 @@ export const setSession = (access: string): void => {
 
 const AuthProvider: React.FC<IAuthProvider> = ({ children }) => {
   const dispatch = useAppDispatch()
-  const { isLoading } = useAppSelector(getAuthState())
-  console.log(isLoading)
 
   useEffect(() => {
     const init = async () => {
@@ -53,36 +55,31 @@ const AuthProvider: React.FC<IAuthProvider> = ({ children }) => {
         const access = window.localStorage.getItem('access')
         if (access && verifyToken(access)) {
           setSession(access)
-          const { isAdmin, username }: IUserData = jwtDecode(access)
-          if (isAdmin) {
+
+          const { roles, username }: IAccessTokenData = jwtDecode(access)
+          if (roles.includes('Admin')) {
             dispatch(loggedInAsAdmin(username))
           } else {
-            dispatch(authorized())
+            dispatch(authorized(username))
           }
         } else {
-          console.log(1)
-
           const refresh = window.localStorage.getItem('refresh')
 
           if (refresh && verifyToken(refresh)) {
             const access = await refreshToken()
             setSession(access)
 
-            const { isAdmin, username }: IUserData = jwtDecode(access)
-            if (isAdmin) {
+            const { roles, username }: IAccessTokenData = jwtDecode(access)
+            if (roles.includes('Admin')) {
               dispatch(loggedInAsAdmin(username))
             } else {
-              dispatch(authorized())
+              dispatch(authorized(username))
             }
           } else {
-            console.log(2)
-
             dispatch(logOut())
           }
         }
       } catch (e) {
-        console.log(3)
-
         dispatch(hasError(e as string))
         dispatch(logOut())
       }

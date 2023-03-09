@@ -4,11 +4,26 @@ export interface ILogin {
   username: string
   password: string
 }
-export async function loginReq(formData: FormData) {
+export type Role = 'Admin' | 'User'
+
+interface IResponseData {
+  access: string
+  refresh: string
+  user: {
+    username: string
+    roles: Role[]
+  }
+}
+
+export async function loginReq(
+  formData: FormData
+): Promise<{ data: IResponseData }> {
   const response = await $host.post('/auth/login', formData)
   return response
 }
-export async function registerReq(formData: FormData) {
+export async function registerReq(
+  formData: FormData
+): Promise<{ data: IResponseData }> {
   const response = await $host.post('/auth/register', formData)
   return response
 }
