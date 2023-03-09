@@ -1,25 +1,20 @@
-import * as React from 'react'
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
 import AuthProvider from '../components/AuthProvider'
 import AdminPage from '../pages/adminPage'
-import HomePage from '../pages/homePage'
+import LoginPage from '../pages/loginPage'
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: (
-      <AuthProvider>
-        <HomePage />
-      </AuthProvider>
-    ),
+    path: '*',
+    element: <LoginPage />,
+  },
+  {
+    path: '/login',
+    element: <LoginPage />,
   },
   {
     path: '/admin',
-    element: (
-      <AuthProvider>
-        <AdminPage />
-      </AuthProvider>
-    ),
+    element: <AdminPage />,
   },
 ])
 

@@ -1,22 +1,92 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { AppDispatch } from './../index'
+import { loginReq, registerReq } from './../../http/auth'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface AuthState {
-	isAdmin: boolean,
-	isAuthorized: boolean,
-	username: String | null
+  isAdmin: boolean
+  isAuthorized: boolean
+  username: string | null
+  isLoading: boolean
+  error: string | null
+  isInitialized: boolean
 }
+
+interface ReturnedAuthState {
+  auth: AuthState
+}
+
 const initialState: AuthState = {
-	isAdmin: false,
-	isAuthorized: false,
-	username: null
+  isAdmin: false,
+  isAuthorized: false,
+  username: null,
+  isLoading: true,
+  error: null,
+  isInitialized: false,
 }
 
 const slice = createSlice({
-	name: 'auth',
-	initialState,
-	reducers: {
-
-	}
+  name: 'auth',
+  initialState,
+  reducers: {
+    requested: state => {
+      state.isLoading = true
+    },
+    hasError: (state, action: PayloadAction<string>) => {
+      console.log(action.payload)
+      state.error = action.payload
+      state.isLoading = false
+    },
+    authorized: state => {
+      state.isAuthorized = true
+      state.isLoading = false
+      state.error = null
+      state.isLoading = false
+    },
+    setAdmin: state => {
+      state.isAdmin = true
+    },
+    loggedOut: state => {
+      state.isAdmin = false
+      state.isAuthorized = false
+      state.username = null
+      state.error = null
+      state.isLoading = false
+    },
+    loggedInAsAdmin: (state, action: PayloadAction<string | null>) => {
+      state.isAdmin = true
+      state.isAuthorized = true
+      state.username = action.payload
+      state.isLoading = false
+      state.error = null
+      state.isLoading = false
+    },
+    setInitialized: (state, action: PayloadAction<boolean>) => {
+      state.isInitialized = action.payload
+    },
+  },
 })
+const { reducer, actions } = slice
+export const {
+  authorized,
+  hasError,
+  loggedInAsAdmin,
+  loggedOut,
+  setAdmin,
+  requested,
+  setInitialized,
+} = actions
 
-export default slice.reducer
+export function logOut() {
+  return async (dispatch: AppDispatch) => {
+    localStorage.removeItem('access')
+    localStorage.removeItem('refresh')
+    dispatch(loggedOut())
+  }
+}
+
+export function getAuthState() {
+  return (state: ReturnedAuthState): AuthState => {
+    return state.auth
+  }
+}
+export default reducer
