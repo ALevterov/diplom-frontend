@@ -1,7 +1,7 @@
-import { createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
-import AuthProvider from '../components/AuthProvider'
+import { createBrowserRouter } from 'react-router-dom'
 import AdminPage from '../pages/adminPage'
 import LoginPage from '../pages/loginPage'
+import IncidentsPage from '../pages/icidentsPage'
 
 const router = createBrowserRouter([
   {
@@ -15,6 +15,10 @@ const router = createBrowserRouter([
   {
     path: '/admin',
     element: <AdminPage />,
+  },
+  {
+    path: '/incidents',
+    element: <IncidentsPage />,
   },
 ])
 

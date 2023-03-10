@@ -1,10 +1,9 @@
-import { useEffect } from 'react'
-import { useAppSelector } from '../hooks/redux'
-import { getAuthState } from '../store/slices/auth'
 import { useNavigate } from 'react-router-dom'
 import MainLayout from '../layouts/mainLayout'
-
-const Page: React.FC = (): JSX.Element => {
+import { useAppSelector } from '../hooks/redux'
+import { getAuthState } from '../store/slices/auth'
+import { useEffect } from 'react'
+const Page: React.FC = () => {
   const navigate = useNavigate()
   const { isAdmin, isAuthorized } = useAppSelector(getAuthState())
   useEffect(() => {
@@ -12,12 +11,11 @@ const Page: React.FC = (): JSX.Element => {
       navigate('/login')
     }
   }, [])
-  return <div>asdasdas</div>
+  return <div>Инциденты</div>
 }
-const AdminPage = () => (
+const IncidentsPage = () => (
   <MainLayout>
     <Page />
   </MainLayout>
 )
-
-export default AdminPage
+export default IncidentsPage

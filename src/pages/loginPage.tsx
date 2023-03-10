@@ -52,7 +52,7 @@ const LoginPage: React.FC = (): JSX.Element => {
         dispatch(loggedInAsAdmin(data.user.username))
         navigate('/admin')
       } else {
-        dispatch(authorized())
+        dispatch(authorized(data.user.username))
         navigate('/')
       }
     } catch (e: any) {
