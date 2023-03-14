@@ -45,7 +45,6 @@ const NavCollapse: React.FC<{ menu: IItem; level: number }> = ({
 
   // const { pathname } = useLocation();
   const { pathname } = useLocation()
-  console.log('NavCollapse', pathname)
 
   const checkOpenForParent: TypecheckOpenForParent = (child, id) => {
     child.forEach(item => {

@@ -1,6 +1,7 @@
 import { AppDispatch } from './../index'
 import { loginReq, registerReq } from './../../http/auth'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { RootState } from '../index'
 
 interface AuthState {
   isAdmin: boolean
@@ -85,7 +86,7 @@ export function logOut() {
 }
 
 export function getAuthState() {
-  return (state: ReturnedAuthState): AuthState => {
+  return (state: RootState): AuthState => {
     return state.auth
   }
 }

@@ -30,7 +30,6 @@ type IItemHandler = (id: number) => void
 const NavItem: React.FC<{ item: any; level: number }> = ({ item, level }) => {
   const theme: any = useTheme()
   const pathname = useLocation()
-  console.log('NavItem', pathname)
 
   const matchesSM = useMediaQuery(theme.breakpoints.down('lg'))
 

@@ -30,10 +30,12 @@ const LoginPage: React.FC = (): JSX.Element => {
   const [isLogin, setIsLogin] = useState(true)
   const { isAdmin } = useAppSelector(getAuthState())
   useEffect(() => {
+    console.log('login')
+
     if (isAdmin) {
       navigate('/admin')
     }
-  }, [])
+  }, [isAdmin])
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()

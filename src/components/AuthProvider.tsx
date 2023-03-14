@@ -51,9 +51,13 @@ const AuthProvider: React.FC<IAuthProvider> = ({ children }) => {
 
   useEffect(() => {
     const init = async () => {
+      console.log('init')
+
       try {
         const access = window.localStorage.getItem('access')
         if (access && verifyToken(access)) {
+          console.log('okay')
+
           setSession(access)
 
           const { roles, username }: IAccessTokenData = jwtDecode(access)

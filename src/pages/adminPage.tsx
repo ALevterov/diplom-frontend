@@ -11,7 +11,7 @@ const Page: React.FC = (): JSX.Element => {
     if (!isAdmin || !isAuthorized) {
       navigate('/login')
     }
-  }, [])
+  }, [isAdmin, isAuthorized])
   return <div>asdasdas</div>
 }
 const AdminPage = () => (
